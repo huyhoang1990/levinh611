@@ -6,21 +6,26 @@ import redis
 
 app = Flask(__name__)
 
+### Dua het config vao file setting va doc tu bien enviroment
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = '123456'
 app.config['MYSQL_DB'] = 'vnexpress'
 
+
+### Connection mysql phai dua vao file model.py
+### Dung thu vien peewee (ORM) de cau truc lai code 
 mysql = MySQL(app)
 peewee
 
 
 @app.route('/', methods=['GET', 'POST'])
-def hi():
+def hi():  ### dat lai ten cho co y nghia
   if request.method == 'POST':
     user = request.form
     name = user['name']
     cur = mysql.connection.cursor()
+    ### Khong doc truc tiep cau sql trong file handler phai dua vao model.py
     cur.execute("INSERT INTO user(name) VALUES (%s)",[name])
     mysql.connection.commit()
     cur.close()
